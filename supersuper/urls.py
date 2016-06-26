@@ -1,17 +1,14 @@
 from django.conf.urls import url
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
 
 import store.views
 
+router = DefaultRouter()
+router.register(r'category', store.views.CategoryViewSet)
+router.register(r'product', store.views.ProductViewSet)
+
 urlpatterns = [
-    url(r'^$', store.views.StoreView.as_view()),
-    url(r'^category/$', store.views.CategoryListAPIView.as_view(),
-        name="category_list"),
-    url(r'^category/(?P<pk>[0-9]+)/$', store.views.CategoryRetrieveAPIView.as_view(),
-        name="category_detail"),
-    url(r'^product/$', store.views.InventoryListAPIView.as_view(),
-        name="product_list"),
-    url(r'^product/(?P<pk>[0-9]+)/$', store.views.InventoryRetrieveAPIView.as_view(),
-        name="product_retrieve"),
-    url(r'^admin/', admin.site.urls),
-]
+                  url(r'^$', store.views.StoreView.as_view()),
+                  url(r'^admin/', admin.site.urls),
+              ] + router.urls

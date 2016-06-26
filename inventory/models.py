@@ -9,6 +9,9 @@ class Category(models.Model):
     description = models.TextField(null=True, blank=True)
     image_url = models.URLField(null=True, blank=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products')

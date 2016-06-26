@@ -1,30 +1,19 @@
 from django.views.generic import TemplateView
-from rest_framework.generics import RetrieveAPIView, ListAPIView
+from rest_framework import viewsets
 
 from inventory.models import Product, Category
-from inventory.serializers import ProductSerializer, MinimalProductSerializer, \
-    CategorySerializer
+from inventory.serializers import ProductSerializer, CategorySerializer
 
 
 class StoreView(TemplateView):
     template_name = "store/store.html"
 
 
-class CategoryListAPIView(ListAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
-class CategoryRetrieveAPIView(RetrieveAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
-
-class InventoryListAPIView(ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = MinimalProductSerializer
-
-
-class InventoryRetrieveAPIView(RetrieveAPIView):
+class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
