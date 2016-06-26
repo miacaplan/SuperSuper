@@ -11,8 +11,8 @@ function indexBy(data, key='id') {
 var m = angular.module("store", ["ngRoute", "dj"]);
 
 
-m.factory('inventory', function InventoryService($http, basePath) {
-    return $http.get(basePath + 'inventory.json').then(resp => resp.data);
+m.factory('inventory', function InventoryService($http, apiPaths) {
+    return $http.get(apiPaths.product_list).then(resp => resp.data);
 });
 
 m.factory('inventoryById', function InventorByIdService(inventory) {
@@ -41,7 +41,12 @@ m.config(function ($routeProvider, basePath) {
         }
     });
 
+
 });
+
+// m.run(function ($rootScope, basePath) {
+//     $rootScope.mainTemplate = basePath + "main.html";
+// });
 
 
 m.controller('StoreCtrl', function StoreCtrl(inventory) {
