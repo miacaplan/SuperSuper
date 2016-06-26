@@ -1,13 +1,35 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from . import models
 
 
-class ProductSerializer(ModelSerializer):
+class MinimalProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Product
         fields = (
             'id',
-            'description',
+            'category',
+            'title',
             'image_url',
             'price',
+            'sale_price',
+        )
+
+
+class ProductSerializer(MinimalProductSerializer):
+    class Meta(MinimalProductSerializer.Meta):
+        fields = MinimalProductSerializer.Meta.fields + (
+            'description',
+        )
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    products = MinimalProductSerializer(many=True)
+
+    class Meta:
+        model = models.Category
+        fields = (
+            'id',
+            'title',
+            'image_url',
+            'products',
         )

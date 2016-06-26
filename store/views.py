@@ -1,19 +1,30 @@
-from django.http.response import JsonResponse
-from django.shortcuts import render
 from django.views.generic import TemplateView
-from django.views.generic.base import View
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 
-from inventory.models import Product
-from inventory.serializers import ProductSerializer
+from inventory.models import Product, Category
+from inventory.serializers import ProductSerializer, MinimalProductSerializer, \
+    CategorySerializer
 
 
 class StoreView(TemplateView):
     template_name = "store/store.html"
 
 
-class InventoryJsonView(View):
-    def get(self, request):
-        qs = Product.objects.all()
-        payload = [ProductSerializer(p).data for p in qs]
-        return JsonResponse(payload, safe=False)
-        # return JsonResponse({'items':payload})
+class CategoryListAPIView(ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class CategoryRetrieveAPIView(RetrieveAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class InventoryListAPIView(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = MinimalProductSerializer
+
+
+class InventoryRetrieveAPIView(RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
