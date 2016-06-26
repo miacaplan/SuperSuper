@@ -46,8 +46,8 @@
     angular.module("dj", [])
             .constant('basePath', '{% static "store/" %}')
             .constant('apiPaths', {
-                product_list: '{% url "product_list" %}'
-             });
+                product_list: '{% url "api:product-list" %}'
+            });
 </script>
 
 <script src="{% static "store/store.js" %}"></script>
