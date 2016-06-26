@@ -3,3 +3,4 @@ django-extensions
 ipython
 silly
 django-bootstrap3
+djangorestframework
