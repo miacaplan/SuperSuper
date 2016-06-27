@@ -41,13 +41,11 @@
 
 <script src="{% static "vendor/angular.js" %}"></script>
 <script src="{% static "vendor/angular-route.js" %}"></script>
+<script src="{% static 'djng/js/django-angular.js' %}"></script>
 
 <script>
     angular.module("dj", [])
-            .constant('basePath', '{% static "store/" %}')
-            .constant('apiPaths', {
-                product_list: '{% url "product_list" %}'
-             });
+            .constant('basePath', '{% static "store/" %}');
 </script>
 
 <script src="{% static "store/store.js" %}"></script>

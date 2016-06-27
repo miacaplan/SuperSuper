@@ -1,6 +1,6 @@
 "use strict";
 
-function indexBy(data, key='id') {
+function indexBy(data) {
     const d = {};
     for (let p of data) {
         d[p.id] = p;
@@ -8,52 +8,72 @@ function indexBy(data, key='id') {
     return d;
 }
 
-var m = angular.module("store", ["ngRoute", "dj"]);
+var m = angular.module("store", ["djng.urls", "ngRoute", "dj"]);
 
 
-m.factory('inventory', function InventoryService($http, apiPaths) {
-    return $http.get(apiPaths.product_list).then(resp => resp.data);
+m.factory('inventory', function InventoryService($http, djangoUrl) {
+    return $http.get(djangoUrl.reverse('api:product-list')).then(resp => resp.data);
 });
 
-m.factory('inventoryById', function InventorByIdService(inventory) {
-    return inventory.then(indexBy);
+m.factory('categories', function CategoriesService($http, djangoUrl) {
+    return $http.get(djangoUrl.reverse('api:category-list')).then(resp => resp.data);
 });
 
+//m.factory('inventoryById', function InventorByIdService(inventory) {
+//    return inventory.then(indexBy(data.products));
+//});
+//
+//m.factory('categoriesById', function CategoriesByIdService(inventory) {
+//    return inventory.then(data => MapByCategory(data));
+//});
+//
+//m.factory('categories', function CategoriesService(categoriesById) {
+//    return categoriesById.then(data => CategorySummaries(data));
+//});
 
 m.config(function ($routeProvider, basePath) {
 
-    //console.log('CONFIG PHASE', $routeProvider);
-
     $routeProvider.when('/', {
-        templateUrl: basePath + 'inventory.html'
+        templateUrl: basePath + 'categories.html'
+    });
+
+    $routeProvider.when('/category/', {
+        templateUrl: basePath + 'categories.html'
     });
 
     $routeProvider.when('/product/:id/', {
         templateUrl: basePath + 'product.html',
-        controller: function ProductCtrl(product) {
-            this.product = product;
+        controller: function ProductCtrl($http, djangoUrl, $route) {
+            $http.get(djangoUrl.reverse('api:product-detail', {'pk':$route.current.params.id})).then(resp => this.product = resp.data);
         },
-        controllerAs: '$ctrl',
-        resolve: {
-            product: function ($route, inventoryById) {
-                return inventoryById.then(data => data[$route.current.params.id]);
-            }
-        }
+        controllerAs: '$ctrl'
+        //resolve: {
+        //    product: function ($route, inventoryById) {
+        //        return inventoryById.then(data => data[$route.current.params.id]);
+        //    }
+        //}
     });
 
+    $routeProvider.when('/category/:id/', {
+        templateUrl: basePath + 'inventory.html',
+        controller: function CategoryCtrl($http, djangoUrl, $route) {
+            $http.get(djangoUrl.reverse('api:category-detail', {'pk':$route.current.params.id})).then(resp => this.category = resp.data);
+        },
+        controllerAs: '$ctrl'
+        //resolve: {
+        //    category: function ($route, categoriesById) {
+        //        return categoriesById.then(data => data[$route.current.params.id]);
+        //    }
+        //}
+    });
 
 });
 
-// m.run(function ($rootScope, basePath) {
-//     $rootScope.mainTemplate = basePath + "main.html";
-// });
-
-
-m.controller('StoreCtrl', function StoreCtrl(inventory) {
+m.controller('StoreCtrl', function StoreCtrl(categories) {
     this.loaded = false;
     this.loadingMessage = "Loading inventory...";
-    inventory.then(data => {
-        this.inventory = data;
+    categories.then(data => {
+        this.categories = data;
         this.loaded = true;
     }).catch(()=> {
         this.loadingMessage = "Something went terribly wrong. sorry."

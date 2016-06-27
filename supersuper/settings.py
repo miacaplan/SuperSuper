@@ -23,12 +23,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'rest_framework',
+    'djng',
 
     'inventory',
     'store',
 ]
 
 MIDDLEWARE_CLASSES = [
+    'djng.middleware.AngularUrlMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
