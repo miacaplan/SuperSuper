@@ -5,14 +5,26 @@
     </div>
 
     <ul class="list-group">
-        <li class="list-group-item" ng-repeat="item in $ctrl.items">
-            {{item.product.title}}
-            {{item.product.price|currency}}
-            X <input type="number" ng-model="item.amount" min="1" max="100">
-            = {{item.product.price * item.amount|currency}}
+        <li class="list-group-item"
+            ng-repeat="item in $ctrl.cartService.items">
+            <h4 class="list-group-item-heading">
+                <span class="pull-right">
+                    <button class="btn btn-default btn-xs"
+                            ng-click="$ctrl.cartService.removeItem(item)"><i
+                            class="glyphicon glyphicon-trash"></i></button>
+                </span>
+                {{ item.product.title }}
+            </h4>
+            <div class="list-group-item-text">
+                {{ item.product.price|currency }}
+                X <input type="number" ng-model="item.amount" min="1"
+                         max="100">
+                = {{ item.product.price * item.amount|currency}}
+            </div>
         </li>
         <li class="list-group-item">
-            Items: 0; Total: <b>{{$ctrl.total()|currency}}</b>
+            Items: {{$ctrl.cartService.items.length}}; Total: <b>
+            {{$ctrl.cartService.total()|currency}}</b>
         </li>
     </ul>
 

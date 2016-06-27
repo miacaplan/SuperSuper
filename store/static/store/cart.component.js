@@ -3,9 +3,8 @@ angular.module("store").component('cart', {
     bindings: {
         items: '=',
     },
-    controller: function CartController() {
-        this.total = () => this.items.reduce(
-            (prev, current) => prev + current.product.price * current.amount, 0)
+    controller: function CartController(cartService) {
+        this.cartService = cartService;
     }
 });
 

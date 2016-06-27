@@ -1,0 +1,22 @@
+<div class="container">
+    <h1>
+        My Awesome Store!
+    </h1>
+
+    <very-nice-panel
+            ng-show="!$ctrl.loaded"
+            title="'Loading....'"
+            content="$ctrl.loadingMessage"></very-nice-panel>
+
+    <div class="row" ng-show="$ctrl.loaded">
+
+        <div class="col-sm-7">
+            <ng-view></ng-view>
+        </div>
+
+        <div class="col-sm-5">
+            <cart items="$ctrl.cartItems"></cart>
+        </div>
+    </div>
+
+</div>

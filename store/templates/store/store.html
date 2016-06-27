@@ -15,28 +15,7 @@
 <body>
 
 <div class="ng-cloak">
-    <div class="container" ng-controller="StoreCtrl as vm">
-        <h1>
-            My Awesome Store!
-        </h1>
-
-        <very-nice-panel
-                ng-show="!vm.loaded"
-                title="'Loading....'"
-                content="vm.loadingMessage"></very-nice-panel>
-
-        <div class="row" ng-show="vm.loaded">
-
-            <div class="col-sm-7">
-                <ng-view></ng-view>
-            </div>
-
-            <div class="col-sm-5">
-                <cart items="vm.cartItems"></cart>
-            </div>
-        </div>
-
-    </div>
+    <main></main>
 </div>
 
 <script src="{% static "vendor/angular.js" %}"></script>
@@ -50,8 +29,15 @@
             });
 </script>
 
-<script src="{% static "store/store.js" %}"></script>
+<script src="{% static "store/store.module.js" %}"></script>
+
+<script src="{% static "store/inventory.service.js" %}"></script>
+<script src="{% static "store/cart.service.js" %}"></script>
+
+<script src="{% static "store/main.component.js" %}"></script>
 <script src="{% static "store/very-nice-panel.component.js" %}"></script>
+<script src="{% static "store/inventory.component.js" %}"></script>
+<script src="{% static "store/product.component.js" %}"></script>
 <script src="{% static "store/cart.component.js" %}"></script>
 
 </body>
