@@ -1,19 +1,20 @@
 class InventoryService {
-    constructor($http, djangoUrl) {
+    constructor($http, djangoUrl, $route) {
         console.log("inventory service ctor");
         this.djangoUrl = djangoUrl;
+        this.$route = $route;
         this.categories = $http.get(djangoUrl.reverse('api:category-list')).then(resp => resp.data);
+        this.$http = $http;
 
     }
 
-    //m.factory('inventory', function InventoryService($http, djangoUrl) {
-    //    return $http.get(djangoUrl.reverse('api:product-list')).then(resp => resp.data);
-    //});
+    product() {
+        return this.$http.get(this.djangoUrl.reverse('api:product-detail', {'pk':this.$route.current.params.id})).then(resp => resp.data);
+    }
 
-    //m.factory('inventoryById', function InventorByIdService(inventory) {
-    //    return inventory.then(indexBy);
-    //});
-
+    category() {
+        return this.$http.get(this.djangoUrl.reverse('api:category-detail', {'pk': this.$route.current.params.id})).then(resp => resp.data);
+    }
 }
 
 angular.module("store").service('inventoryService', InventoryService);

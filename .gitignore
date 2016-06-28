@@ -1,4 +1,4 @@
 /db.sqlite3
 */__pycache__/*
 .idea
-inventory/migrations/__pycache__/
+*/*/__pycache__/*

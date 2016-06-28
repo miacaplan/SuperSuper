@@ -5,10 +5,10 @@ angular.module("store").component("main", {
     controller: MainCtrl,
 });
 
-function MainCtrl(categories) {
+function MainCtrl(inventoryService) {
     this.loaded = false;
     this.loadingMessage = "Loading...";
-    categories.then(data => {
+    inventoryService.categories.then(data => {
         this.loaded = true;
     }).catch(()=> {
         this.loadingMessage = "Something went terribly wrong. sorry."
