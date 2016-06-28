@@ -1,11 +1,11 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">{{  $ctrl.category.title }}</h3>
+        <h3 class="panel-title">{{  $ctrl.item.title }}</h3>
     </div>
     <ul class="list-group">
-        <li class="list-group-item" ng-repeat="product in $ctrl.category.products">
+        <li class="list-group-item" ng-repeat="product in $ctrl.item.products">
             <button class="btn btn-success btn-xs"
-            ng-click="vm.addToCart(product)"><i class="glyphicon glyphicon-plus"></i></button>
+            ng-click="$ctrl.addToCart(product)"><i class="glyphicon glyphicon-plus"></i></button>
             <a href="#/product/{{product.id}}/">{{product.title}}</a>
         </li>
     </ul>
